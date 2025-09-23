@@ -57,6 +57,27 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Cinema theme colors
+        cinema: {
+          gold: "hsl(var(--cinema-gold))",
+          "gold-light": "hsl(var(--cinema-gold-light))",
+          purple: "hsl(var(--cinema-purple))",
+          blue: "hsl(var(--cinema-blue))",
+          "blue-light": "hsl(var(--cinema-blue-light))",
+        },
+      },
+      backgroundImage: {
+        "gradient-hero": "var(--gradient-hero)",
+        "gradient-card": "var(--gradient-card)",
+        "gradient-gold": "var(--gradient-gold)",
+      },
+      boxShadow: {
+        cinema: "var(--shadow-cinema)",
+        gold: "var(--shadow-gold)",
+      },
+      transitionTimingFunction: {
+        smooth: "var(--transition-smooth)",
+        spring: "var(--transition-spring)",
       },
       borderRadius: {
         lg: "var(--radius)",
