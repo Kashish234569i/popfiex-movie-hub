@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Search, Menu, X, User, Bell } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -7,10 +8,10 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigation = [
-    { name: "Movies", href: "#movies" },
-    { name: "Reviews", href: "#reviews" },
-    { name: "Theaters", href: "#theaters" },
-    { name: "Showtimes", href: "#showtimes" },
+    { name: "Movies", href: "/movies" },
+    { name: "Reviews", href: "/reviews" },
+    { name: "Theaters", href: "/theaters" },
+    { name: "Showtimes", href: "/showtimes" },
   ];
 
   return (
@@ -19,21 +20,21 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold bg-gradient-gold bg-clip-text text-transparent">
+            <Link to="/" className="text-2xl font-bold bg-gradient-gold bg-clip-text text-transparent">
               Popfiex
-            </h1>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -56,12 +57,14 @@ export function Header() {
             <Button variant="ghost" size="sm" className="hidden md:flex">
               <User className="w-4 h-4" />
             </Button>
-            <Button 
-              size="sm"
-              className="hidden md:flex bg-gradient-gold hover:shadow-gold text-primary-foreground border-0"
-            >
-              Sign In
-            </Button>
+            <Link to="/signin">
+              <Button 
+                size="sm"
+                className="hidden md:flex bg-gradient-gold hover:shadow-gold text-primary-foreground border-0"
+              >
+                Sign In
+              </Button>
+            </Link>
 
             {/* Mobile menu button */}
             <Button
@@ -80,13 +83,13 @@ export function Header() {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-card/95 backdrop-blur-md border-t border-border/50">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className="block px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-md transition-colors"
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
               <div className="px-3 py-2">
                 <Input
@@ -99,9 +102,11 @@ export function Header() {
                   <User className="w-4 h-4 mr-2" />
                   Profile
                 </Button>
-                <Button className="w-full bg-gradient-gold text-primary-foreground border-0">
-                  Sign In
-                </Button>
+                <Link to="/signin" className="block">
+                  <Button className="w-full bg-gradient-gold text-primary-foreground border-0">
+                    Sign In
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
