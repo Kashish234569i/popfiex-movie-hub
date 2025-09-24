@@ -1,11 +1,23 @@
 import { useState } from "react";
-import { Search, Menu, X, User, Bell } from "lucide-react";
+import { Search, Menu, X, User, Bell, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Signed out successfully!");
+    }
+  };
 
   const navigation = [
     { name: "Movies", href: "/movies" },
@@ -51,20 +63,36 @@ export function Header() {
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="hidden md:flex">
-              <Bell className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="sm" className="hidden md:flex">
-              <User className="w-4 h-4" />
-            </Button>
-            <Link to="/signin">
-              <Button 
-                size="sm"
-                className="hidden md:flex bg-gradient-gold hover:shadow-gold text-primary-foreground border-0"
-              >
-                Sign In
+            {user && (
+              <Button variant="ghost" size="sm" className="hidden md:flex">
+                <Bell className="w-4 h-4" />
               </Button>
-            </Link>
+            )}
+            
+            {user ? (
+              <div className="hidden md:flex items-center gap-4">
+                <span className="text-sm text-muted-foreground">
+                  Welcome, {user.email}
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="bg-gradient-secondary hover:shadow-secondary text-primary-foreground px-4 py-2 rounded-lg transition-all duration-300 font-medium flex items-center gap-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link to="/signin">
+                <Button 
+                  size="sm"
+                  className="hidden md:flex bg-gradient-gold hover:shadow-gold text-primary-foreground border-0"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
+            )}
 
             {/* Mobile menu button */}
             <Button
@@ -87,6 +115,7 @@ export function Header() {
                   key={item.name}
                   to={item.href}
                   className="block px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-md transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
@@ -98,15 +127,30 @@ export function Header() {
                 />
               </div>
               <div className="px-3 py-2 space-y-2">
-                <Button variant="ghost" className="w-full justify-start">
-                  <User className="w-4 h-4 mr-2" />
-                  Profile
-                </Button>
-                <Link to="/signin" className="block">
-                  <Button className="w-full bg-gradient-gold text-primary-foreground border-0">
-                    Sign In
-                  </Button>
-                </Link>
+                {user ? (
+                  <div className="flex flex-col gap-4">
+                    <div className="text-sm text-muted-foreground text-center">
+                      Welcome, {user.email}
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleSignOut();
+                        setIsMenuOpen(false);
+                      }}
+                      className="bg-gradient-secondary hover:shadow-secondary text-primary-foreground px-6 py-3 rounded-lg transition-all duration-300 font-medium text-center flex items-center justify-center gap-2"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <Link to="/signin" className="block" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full bg-gradient-gold text-primary-foreground border-0">
+                      <User className="w-4 h-4 mr-2" />
+                      Sign In
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
