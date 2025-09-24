@@ -14,13 +14,318 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          booking_reference: string
+          booking_status: string
+          created_at: string
+          id: string
+          seat_ids: string[]
+          showtime_id: string
+          total_amount: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          booking_reference: string
+          booking_status?: string
+          created_at?: string
+          id?: string
+          seat_ids: string[]
+          showtime_id: string
+          total_amount: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          booking_reference?: string
+          booking_status?: string
+          created_at?: string
+          id?: string
+          seat_ids?: string[]
+          showtime_id?: string
+          total_amount?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_showtime_id_fkey"
+            columns: ["showtime_id"]
+            isOneToOne: false
+            referencedRelation: "showtimes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      movies: {
+        Row: {
+          created_at: string
+          description: string | null
+          director: string | null
+          duration: string
+          genre: string[] | null
+          id: string
+          movie_cast: string[] | null
+          poster_url: string | null
+          rating: string
+          release_date: string | null
+          title: string
+          trailer_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          director?: string | null
+          duration: string
+          genre?: string[] | null
+          id?: string
+          movie_cast?: string[] | null
+          poster_url?: string | null
+          rating: string
+          release_date?: string | null
+          title: string
+          trailer_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          director?: string | null
+          duration?: string
+          genre?: string[] | null
+          id?: string
+          movie_cast?: string[] | null
+          poster_url?: string | null
+          rating?: string
+          release_date?: string | null
+          title?: string
+          trailer_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_featured: boolean | null
+          movie_id: string
+          rating: number
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_featured?: boolean | null
+          movie_id: string
+          rating: number
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_featured?: boolean | null
+          movie_id?: string
+          rating?: number
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_movie_id_fkey"
+            columns: ["movie_id"]
+            isOneToOne: false
+            referencedRelation: "movies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      seats: {
+        Row: {
+          created_at: string
+          id: string
+          row_number: string
+          seat_number: number
+          seat_type: string
+          theater_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          row_number: string
+          seat_number: number
+          seat_type?: string
+          theater_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          row_number?: string
+          seat_number?: number
+          seat_type?: string
+          theater_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seats_theater_id_fkey"
+            columns: ["theater_id"]
+            isOneToOne: false
+            referencedRelation: "theaters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      showtimes: {
+        Row: {
+          available_seats: number
+          created_at: string
+          format: string
+          id: string
+          movie_id: string
+          price: number
+          show_date: string
+          show_time: string
+          theater_id: string
+          total_seats: number
+          updated_at: string
+        }
+        Insert: {
+          available_seats?: number
+          created_at?: string
+          format: string
+          id?: string
+          movie_id: string
+          price: number
+          show_date: string
+          show_time: string
+          theater_id: string
+          total_seats?: number
+          updated_at?: string
+        }
+        Update: {
+          available_seats?: number
+          created_at?: string
+          format?: string
+          id?: string
+          movie_id?: string
+          price?: number
+          show_date?: string
+          show_time?: string
+          theater_id?: string
+          total_seats?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "showtimes_movie_id_fkey"
+            columns: ["movie_id"]
+            isOneToOne: false
+            referencedRelation: "movies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "showtimes_theater_id_fkey"
+            columns: ["theater_id"]
+            isOneToOne: false
+            referencedRelation: "theaters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      theaters: {
+        Row: {
+          address: string
+          amenities: string[] | null
+          city: string
+          created_at: string
+          id: string
+          name: string
+          phone: string | null
+          state: string
+          updated_at: string
+          zip_code: string
+        }
+        Insert: {
+          address: string
+          amenities?: string[] | null
+          city: string
+          created_at?: string
+          id?: string
+          name: string
+          phone?: string | null
+          state: string
+          updated_at?: string
+          zip_code: string
+        }
+        Update: {
+          address?: string
+          amenities?: string[] | null
+          city?: string
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          state?: string
+          updated_at?: string
+          zip_code?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_booking_reference: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
